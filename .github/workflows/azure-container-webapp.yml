@@ -21,8 +21,6 @@ jobs:
 
       SERVER_FARM_RESOURCE_GROUP_NAME: mycst-rg 
       WEBAPP_LOCATION: CentralUS
-      TAG_ENVIRONMENT: DEVELOPMENT
-
     steps:
 
       - name: Download ARM Templates
@@ -54,5 +52,4 @@ jobs:
             dockerRegistryUrl="${{ env.DOCKER_REGISTRY_URL }}"
             dockerRegistryUsername="${{ secrets.ACR_USERNAME }}"
             dockerRegistryPassword="${{ secrets.ACR_PASSWORD }}"
-            tag_environment="${{ env.TAG_ENVIRONMENT }}"
 
