@@ -1,30 +1,4 @@
-# This workflow will build and push a Docker container to an Azure Web App when a commit is pushed to your default branch.
-#
-# This workflow assumes you have already created the target Azure App Service web app.
-# For instructions see https://docs.microsoft.com/en-us/azure/app-service/quickstart-custom-container?tabs=dotnet&pivots=container-linux
-#
-# To configure this workflow:
-#
-# 1. Download the Publish Profile for your Azure Web App. You can download this file from the Overview page of your Web App in the Azure Portal.
-#    For more information: https://docs.microsoft.com/en-us/azure/app-service/deploy-github-actions?tabs=applevel#generate-deployment-credentials
-#
-# 2. Create a secret in your repository named AZURE_WEBAPP_PUBLISH_PROFILE, paste the publish profile contents as the value of the secret.
-#    For instructions on obtaining the publish profile see: https://docs.microsoft.com/azure/app-service/deploy-github-actions#configure-the-github-secret
-#
-# 3. Create a GitHub Personal access token with "repo" and "read:packages" permissions.
-#
-# 4. Create three app settings on your Azure Web app:
-#       DOCKER_REGISTRY_SERVER_URL: Set this to "https://ghcr.io"
-#       DOCKER_REGISTRY_SERVER_USERNAME: Set this to the GitHub username or organization that owns the repository
-#       DOCKER_REGISTRY_SERVER_PASSWORD: Set this to the value of your PAT token from the previous step
-#
-# 5. Change the value for the AZURE_WEBAPP_NAME.
-#
-# For more information on GitHub Actions for Azure: https://github.com/Azure/Actions
-# For more information on the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# For more samples to get started with GitHub Action workflows to deploy to Azure: https://github.com/Azure/actions-workflow-samples
-
-name: Build and deploy a container to an Azure Web App
+name: MyNGINX CD
 
 env:
   AZURE_WEBAPP_NAME: myazapps # set this to the name of your Azure Web App
@@ -39,21 +13,46 @@ permissions:
 
 jobs:
   deploy:
-    permissions:
-      contents: none
     runs-on: ubuntu-latest
-    environment:
-      name: 'Development'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    environment: dev
+
+    env:
+      ENVIRONMENT_PREFIX: dev
+
+      SERVER_FARM_RESOURCE_GROUP_NAME: mycst-rg 
+      WEBAPP_LOCATION: CentralUS
+      TAG_ENVIRONMENT: DEVELOPMENT
 
     steps:
-      - name: Lowercase the repo name and username
-        run: echo "REPO=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
 
-      - name: Deploy to Azure Web App
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v2
+      - name: Download ARM Templates
+        uses: actions/download-artifact@v3
         with:
-          app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          images: 'myazregistrydel.azurecr.io/${{ env.REPO }}:${{ github.sha }}'
+          name: arm-templates
+
+      - name: "Login via Azure CLI"
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy ARM Template
+        uses: azure/arm-deploy@v1
+        with:
+          subscriptionId: ${{ secrets.SUBSCRIPTION_ID }}
+          resourceGroupName: ${{ env.SERVER_FARM_RESOURCE_GROUP_NAME }}
+          deploymentMode: Incremental
+          template: azuredeploy.json
+          parameters: > 
+            subscriptionId="${{ secrets.SUBSCRIPTION_ID }}"
+            name="${{ env.ENVIRONMENT_PREFIX }}-devops-mynginx"
+            location="${{ env.WEBAPP_LOCATION }}"
+            hostingPlanName="${{ env.ENVIRONMENT_PREFIX }}-asp"
+            serverFarmResourceGroup="${{ env.SERVER_FARM_RESOURCE_GROUP_NAME }}"
+            sku="${{ env.WEBAPP_SKU }}"
+            skuCode="${{ env.WEBAPP_SKU_CODE }}"
+            linuxFxVersion="DOCKER|${{ env.DOCKER_REGISTRY_URL }}/mynginx:${{ github.run_id }}"
+            dockerRegistryUrl="${{ env.DOCKER_REGISTRY_URL }}"
+            dockerRegistryUsername="${{ secrets.ACR_USERNAME }}"
+            dockerRegistryPassword="${{ secrets.ACR_PASSWORD }}"
+            tag_environment="${{ env.TAG_ENVIRONMENT }}"
+
