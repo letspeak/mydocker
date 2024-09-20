@@ -27,7 +27,7 @@ jobs:
 
       - name: Build and Push the Docker image
         run: |
-          docker build ./MyNGINX -t ${{ env.DOCKER_REGISTRY_URL }}/mynginx:${{ github.run_id }}
+          docker build ./mydocker -t ${{ env.DOCKER_REGISTRY_URL }}/mynginx:${{ github.run_id }}
           docker push ${{ env.DOCKER_REGISTRY_URL }}/samplewebapp:${{ github.run_id }}
 
       - name: Package ARM Template
