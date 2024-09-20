@@ -31,7 +31,7 @@ jobs:
           docker push ${{ env.DOCKER_REGISTRY_URL }}/samplewebapp:${{ github.run_id }}
 
       - name: Package ARM Template
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with: 
           name: arm-templates
           path: ${{ github.workspace }}/MyNGINX/azuredeploy.json
