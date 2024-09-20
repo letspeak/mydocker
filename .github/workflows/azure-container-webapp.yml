@@ -3,8 +3,6 @@ name: MyNGINX CD
 on: 
   push:
     branches: [master]
-  pull_request:
-    branches: [master]
 
 env:
   DOCKER_REGISTRY_URL: myazregistrydel.azurecr.io
