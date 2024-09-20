@@ -2,11 +2,10 @@ name: MyNGINX CD
 
 on: 
   push:
-    branches: [master]
+    branches: [main]
 
 env:
   DOCKER_REGISTRY_URL: myazregistrydel.azurecr.io
-
 
 jobs:
 
@@ -49,6 +48,7 @@ jobs:
       SERVER_FARM_RESOURCE_GROUP_NAME: mycst-rg 
       WEBAPP_LOCATION: CentralUS
       TAG_ENVIRONMENT: DEVELOPMENT
+
 
     steps:
 
