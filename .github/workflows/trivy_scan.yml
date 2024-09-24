@@ -43,7 +43,7 @@ jobs:
     - name: Scan Docker image with Trivy
       id: scan-image
       run: |
-        trivy image — format json — output scan-results.json mydocker:pr-${{ github.event.number }}
+        trivy image -- format json — output scan-results.json mydocker:pr-${{ github.event.number }}
 
     - name: Extract high and critical vulnerabilities
       id: extract_vulnerabilities
