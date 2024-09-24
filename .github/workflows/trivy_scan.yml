@@ -74,19 +74,19 @@ jobs:
         echo “EOF” >> $GITHUB_ENV     
 
     - name: Upload scan results
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: vulnerability-report
         path: vulnerability-report.md
         
-    - name: Comment scan results on PR
-      uses: marocchino/sticky-pull-request-comment@v2
-      with:
-        header: Docker Image Scan Results
-        message: |
-          Trivy scan report:
-          ${{ env.report }}
-          #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+   # - name: Comment scan results on PR
+   #   uses: marocchino/sticky-pull-request-comment@v2
+   #   with:
+   #     header: Docker Image Scan Results
+   #     message: |
+   #       Trivy scan report:
+   #       ${{ env.report }}
+   #       #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
 
  
