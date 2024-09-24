@@ -31,7 +31,7 @@ jobs:
 
     - name: Build Docker image
       id: build-image
-      run: docker build -t mydocker:pr #-${{ github.event.number }} . 
+      run: docker build -t mydocker:pr . #-${{ github.event.number }} . 
 
     - name: Install Trivy
       run: |
