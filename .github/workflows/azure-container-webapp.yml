@@ -1,4 +1,4 @@
-name: Build-To-Deploy
+name: Build-and-Version
  
 on:
   #workflow_dispatch:
