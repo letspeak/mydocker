@@ -21,8 +21,8 @@ jobs:
     - name: Get variables
       id: get_version
       run: |
-        VER=$(cat ./VERSION)
-        echo "VERSION=$VER" >> $GITHUB_ENV
+        echo "VERSION=$(cat ./VERSION)" >> $GITHUB_OUTPUT
+        #echo "VERSION=$VER" >> $GITHUB_ENV
 
     - name: Debug
       run: echo 'get_version:' ${{ steps.get_version.outputs.VERSION }}
