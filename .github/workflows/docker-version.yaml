@@ -36,7 +36,7 @@ jobs:
 
     - name: Increment Ver. Number
       id: increment_version_no
-      run: echo 'next_version=($version+1)' >> $GITHUB_OUTPUT
+      run: echo 'next_version=(${{ steps.get_version.outputs.version }}+1)' >> $GITHUB_OUTPUT
              
     - name: Debug
       run: echo 'next_version:' ${{ steps.increment_version_no.outputs.next_version }}
