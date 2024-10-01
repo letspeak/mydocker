@@ -19,7 +19,7 @@ jobs:
     steps:
 
     - name: Print variables
-      run: env
+      run: tree /home/runner/work/mydocker
         
     - name: Get variables
       id: get_version
