@@ -1,7 +1,9 @@
 name: Build-To-Deploy
  
 on:
-  workflow_dispatch:
+  #workflow_dispatch:
+   push:
+     branches: [main]
  
 jobs:
   docker_build_push_acr:
