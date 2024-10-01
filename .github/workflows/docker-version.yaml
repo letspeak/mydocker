@@ -18,6 +18,9 @@ jobs:
   
     steps:
 
+    - name: Print variables
+      run: env
+        
     - name: Get variables
       id: get_version
       run: |
