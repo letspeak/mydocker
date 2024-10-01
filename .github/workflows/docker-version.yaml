@@ -24,13 +24,13 @@ jobs:
 
       - name: Get Previous tag
         id: previoustag
-        uses: 'WyriHaximus/github-action-get-previous-tag@v1'
+        uses: 'WyriHaximus/github-action-get-previous-tag@v2'
         env:
           GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN_GITHUB }}
           
       - name: Get next version
         id: next
-        uses: 'WyriHaximus/github-action-next-release-version@1.0.0'
+        uses: 'WyriHaximus/github-action-next-release-version@2.0.0'
         with:
           version: ${{ steps.previoustag.outputs.tag }}
 
