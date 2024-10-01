@@ -20,6 +20,8 @@ jobs:
 
     - name: Checkout repository
       uses: actions/checkout@v4
+      with:
+        fetch-depth: 0 # required for github-action-get-previous-tag
       
     - name: Print variables
       run: ls -ltr /home/runner/work/mydocker
@@ -28,22 +30,16 @@ jobs:
       id: get_version
       run: |
         echo 'version=$(cat ./VERSION)' >> $GITHUB_OUTPUT
-        #echo "VERSION=$VER" >> $GITHUB_ENV
 
     - name: Debug
-      run: echo 'get_version:' ${{ steps.get_version.outputs.VERSION }}
+      run: echo 'get_version:' ${{ steps.get_version.outputs.version }}
 
-    - name: Generate build number
-      id: buildnumber
-      uses: einaregilsson/build-number@v2
-      with:
-        token: ${{secrets.ACCESS_TOKEN_GITHUB}}
+    - name: Increment Ver. Number
+      id: increment_version_no
+      run: echo 'next_version=$(version+1) >> $GITHUB_OUTPUT
              
-    - uses: "marvinpinto/action-automatic-releases@latest"
-      with:
-        repo_token: "${{ secrets.GITHUB_TOKEN }}"
-        automatic_release_tag: v${{ steps.get_version.outputs.version }}.${{ steps.buildnumber.outputs.build_number }}
-        prerelease: false
+    - name: Debug
+      run: echo 'next_version:' ${{ steps.increment_version_no.outputs.next_version }}
 
           
         
