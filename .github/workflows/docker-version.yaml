@@ -18,7 +18,7 @@ jobs:
   
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0 # required for github-action-get-previous-tag
 
@@ -36,7 +36,7 @@ jobs:
 
       - name: Create release
         id: create_release_id
-        uses: actions/create-release@v1
+        uses: actions/create-release@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
