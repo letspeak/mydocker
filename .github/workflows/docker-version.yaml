@@ -18,8 +18,11 @@ jobs:
   
     steps:
 
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
     - name: Print variables
-      run: tree /home/runner/work/mydocker
+      run: ls -ltr /home/runner/work/mydocker
         
     - name: Get variables
       id: get_version
