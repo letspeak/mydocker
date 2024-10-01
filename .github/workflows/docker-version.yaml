@@ -45,7 +45,7 @@ jobs:
         run: |
           echo "Tag name from GITHUB_REF_NAME: $GITHUB_REF_NAME"
           echo "Tag name from github.ref_name: ${{  github.ref_name }}"
-          echo "Latest Tag ${{ steps.latest-tag.outputs.latest_tag }}"
+          #echo "Latest Tag ${{ steps.latest-tag.outputs.latest_tag }}"
 
 
       
