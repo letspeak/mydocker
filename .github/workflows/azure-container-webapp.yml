@@ -23,6 +23,6 @@ jobs:
         echo "VERSION=$VER" >> $GITHUB_ENV
 
     - name: Debug
-      run: echo 'get_version:' ${{ steps..get_version.outputs.VERSION }}
+      run: echo 'get_version:' ${{ steps.get_version.outputs.VERSION }}
         
   
