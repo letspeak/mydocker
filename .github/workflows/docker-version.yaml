@@ -32,7 +32,7 @@ jobs:
         echo 'version=sum($(cat ./VERSION)+1)' >> $GITHUB_OUTPUT
 
     - name: Debug
-      run: echo 'get_version:' ${{ steps.get_version.outputs.version }}
+      run: echo 'get_version:' '${{ steps.get_version.outputs.version }}'
 
 
 
