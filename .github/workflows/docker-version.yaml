@@ -7,7 +7,7 @@ on:
  
 jobs:
   docker_build_push_acr:
-    name: 'Docker Build and Push to ACR'
+    name: 'Increment Build'
     runs-on: ubuntu-latest
     environment: dev
   
@@ -25,7 +25,8 @@ jobs:
       - name: Get Previous tag
         id: previoustag
         uses: 'WyriHaximus/github-action-get-previous-tag@v1'
-
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN_GITHUB }}
           
       - name: Get next version
         id: next
