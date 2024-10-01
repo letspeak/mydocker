@@ -30,7 +30,7 @@ jobs:
           
       - name: Get next version
         id: next
-        uses: 'WyriHaximus/github-action-next-release-version@2.0.0'
+        uses: 'WyriHaximus/github-action-next-release-version@1.0.0'
         with:
           version: ${{ steps.previoustag.outputs.tag }}
 
