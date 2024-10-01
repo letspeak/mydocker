@@ -21,7 +21,7 @@ jobs:
     - name: Get variables
       id: get_version
       run: |
-        echo "VERSION=$(cat ./VERSION)" >> $GITHUB_OUTPUT
+        echo 'VERSION=$(cat ./VERSION)' >> $GITHUB_OUTPUT
         #echo "VERSION=$VER" >> $GITHUB_ENV
 
     - name: Debug
