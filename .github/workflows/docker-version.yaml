@@ -33,10 +33,19 @@ jobs:
           echo $RELEASE_VERSION
           echo ${{ steps.vars.outputs.tag }}
 
-      - name: GitHub Tag Name example
+
+
+      - name: Get Latest Tag
+        id: latest-tag
+        run: |
+          latest_tag=$(git describe --tags 'git rev-list --tags --max-count=1')   
+
+
+      - name: GitHub Tag Name example 
         run: |
           echo "Tag name from GITHUB_REF_NAME: $GITHUB_REF_NAME"
           echo "Tag name from github.ref_name: ${{  github.ref_name }}"
+          echo "Latest Tag ${{ steps.latest-tag.outputs.latest_tag }}"
 
 
       
