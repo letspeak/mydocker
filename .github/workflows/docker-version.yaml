@@ -27,10 +27,24 @@ jobs:
     - name: Get variables
       id: get_version
       run: |
-        echo 'VERSION=$(cat ./VERSION)' >> $GITHUB_OUTPUT
+        echo 'version=$(cat ./VERSION)' >> $GITHUB_OUTPUT
         #echo "VERSION=$VER" >> $GITHUB_ENV
 
     - name: Debug
       run: echo 'get_version:' ${{ steps.get_version.outputs.VERSION }}
+
+    - name: Generate build number
+      id: buildnumber
+      uses: einaregilsson/build-number@v2
+      with:
+        token: ${{secrets.ACCESS_TOKEN_GITHUB}}
+             
+    - uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        automatic_release_tag: v${{ steps.get_version.outputs.version }}.${{ steps.buildnumber.outputs.build_number }}
+        prerelease: false
+
+          
         
   
