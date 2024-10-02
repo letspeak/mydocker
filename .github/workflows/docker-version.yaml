@@ -3,7 +3,7 @@ name: Build-and-Version
 on:
   #workflow_dispatch:
    push:
-     branches: [main]
+     branches: [dev-feature]
  
 jobs:
   docker_build_push_acr:
@@ -22,39 +22,17 @@ jobs:
         with:
           fetch-depth: 0 # required for github-action-get-previous-tag
 
-      - name: Set output
-        id: vars
-        run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
+      - name: Get Version 
+        id: get_ver
+        run: echo "ver=${cat ./version.txt}" >> $GITHUB_OUTPUT
         
       - name: Check output
         env:
-          RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
+          RELEASE_VERSION: ${{ steps.get_ver.outputs.ver }}
         run: |
           echo $RELEASE_VERSION
-          echo ${{ steps.vars.outputs.tag }}
+          echo ${{ steps.get_ver.outputs.ver }}
 
 
 
-      #- name: Get Latest Tag
-      #  id: latest-tag
-      #  run: |
-      #    latest_tag=$(git describe --tags 'git rev-list --tags --max-count=1')   
-
-
-      - name: GitHub Tag Name example 
-        run: |
-          echo "Tag name from GITHUB_REF_NAME: $GITHUB_REF_NAME"
-          echo "Tag name from github.ref_name: ${{  github.ref_name }}"
-          #echo "Latest Tag ${{ steps.latest-tag.outputs.latest_tag }}"
-
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
       
