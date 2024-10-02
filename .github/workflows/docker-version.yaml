@@ -47,13 +47,14 @@ jobs:
           echo "Tag name from github.ref_name: ${{  github.ref_name }}"
           #echo "Latest Tag ${{ steps.latest-tag.outputs.latest_tag }}"
 
-      - name: Create a Release
-        uses: elgohr/Github-Release-Action@v5
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
         env:
-          GH_TOKEN: ${{ secrets.ACCESS_TOKEN_GITHUB }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
-          title: MyReleaseMessage
-          tag: MyTag
-
-
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
       
