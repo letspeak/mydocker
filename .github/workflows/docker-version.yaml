@@ -24,7 +24,7 @@ jobs:
 
       - name: Get Version 
         id: get_ver
-        run: echo "ver=${cat ./version.txt}" >> $GITHUB_OUTPUT
+        run: echo "ver=$(cat ./version.txt)" >> $GITHUB_OUTPUT
         
       - name: Check output
         env:
