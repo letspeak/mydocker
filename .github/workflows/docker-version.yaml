@@ -25,13 +25,11 @@ jobs:
       - name: Get Version 
         id: get_ver
         run: echo "ver=$(cat ./version.txt)" >> $GITHUB_OUTPUT
+
+      - run: ver=$(cat ./version.txt)
+      - run: printf "%s" $ver
         
-      - name: Check output
-        env:
-          RELEASE_VERSION: expr (${{ steps.get_ver.outputs.ver }}+1)
-        run: |
-          echo $RELEASE_VERSION
-          echo ${{ steps.get_ver.outputs.ver }}
+
 
 
 
