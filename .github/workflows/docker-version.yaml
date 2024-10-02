@@ -28,7 +28,7 @@ jobs:
         
       - name: Check output
         env:
-          RELEASE_VERSION: ${{ steps.get_ver.outputs.ver }}
+          RELEASE_VERSION: expr (${{ steps.get_ver.outputs.ver }}+1)
         run: |
           echo $RELEASE_VERSION
           echo ${{ steps.get_ver.outputs.ver }}
